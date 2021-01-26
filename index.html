@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>交单系统</title>
+    <link rel="stylesheet" href="./layui/css/layui.css" />
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <form class="layui-form" action="">
+      <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">普通文本域</label>
+        <div class="layui-input-block">
+          <textarea
+            id="input"
+            placeholder="请输入账号（空格） 密码，每行一个账号"
+            class="layui-textarea"
+          >
+s20201001 123456</textarea
+          >
+        </div>
+      </div>
+      <button onclick="handle();" type="button" class="layui-btn">查课</button>
+      <button onclick="submit_();" type="button" class="layui-btn">提交</button>
+    </form>
+
+    <div id="tree"></div>
+    <script src="./layui/layui.all.js"></script>
+    <script src="./index.js"></script>
+  </body>
+</html>
