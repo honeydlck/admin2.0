@@ -66,11 +66,14 @@ function query () {
 }
 
 function submit_ () {
+  let loading = layer.load(2, {
+    shade: false,
+  });
 
   selectData = tree.getChecked('demoid')
   console.log(selectData)
   let order = []
-  debugger;
+  // debugger;
   for (i = 0; i < selectData.length; i++) {
     username = selectData[i].id.split(" ")[0]
     password = selectData[i].id.split(" ")[1]
@@ -103,17 +106,82 @@ function submit_ () {
       })
       // for(k=0;k<selectData[i].children[j].children.length;k++){
       //   tempstart=selectData[i].children[j].children[0].id
-
       // }
     }
   }
-  console.log(order)
+  console.log("order",order)
 
-  // function add(a){
-  //   return new Promise((res) => {
-  //     fetch("http://taotaokeji.cn/app/confirmorder.php?username="+a.username+"&password="+a.password+"&xsjbookid="+a.textbookId+"&bookname="+a.textbookTitle+"&range=single&start=5&goal=8&score=99&yanzhengma=undefined&mode=putong&duration=0&oral=nan&telephone=15897339276&QQ=2102886011&message=&tip=0&orderid=XSJ20210107103674&userid=oAku2wGLD-o79FkvHfQkukVe7jBk&invitecode=undefined").then(re => res(re.json())).catch(err => res(err))
-  //   })
-  // }
+  let res=[]
+  for (i = 0; i < order.length; i++) {
+    res[i] = add(order[i])
+  }
+  Promise.all(res).then(a=>
+    {
+      console.log("add result",a)
+      layer.close(loading)
+      tree.render({
+        elem: '#tree',
+        showCheckbox: true,
+        data: null,
+        id: "demoid"
+      });
+
+      layer.open({
+        title: '提示'
+        ,content: '提交成功'
+      }); 
+
+
+    })
+
+  function obj2Url(obj){
+    let arr = [];
+    for(let i in obj){
+        if (obj.hasOwnProperty(i)) {
+            arr.push(encodeURIComponent(i) + "=" + encodeURIComponent(obj[i]));
+        }
+    }
+    return arr.join("&");
+  }
+
+
+  function add(a){
+    return new Promise((res) => {
+      let order={
+        username:a.username,
+        password:a.password,
+        xsjbookid:a.bookid,
+        bookname:a.courseName,
+        start:a.start,
+        goal:a.goal,
+        tip:0,
+        orderid:getOrderid(),
+        range:'single',
+        duration:0,
+        userid:"adminfront",
+        api:true
+      }
+      let url="http://taotaokeji.cn/app/confirmorder.php?"+obj2Url(order)
+
+      fetch(url).then(re => res(re.json())).catch(err => res(err))
+    })
+  }
+
+  function getOrderid(){
+    var oDate = new Date(); //实例一个时间对象；
+    var y=oDate.getFullYear();   //获取系统的年；
+    var m=oDate.getMonth()+1;   //获取系统月份，由于月份是从0开始计算，所以要加1
+    if (m<10){m='0'+m;}
+    var d=oDate.getDate(); // 获取系统日，
+    if (d<10){d='0'+d;}
+    var h=oDate.getHours(); //获取系统时，
+    if (h<10){h='0'+h;}
+    var i=oDate.getMinutes(); //分
+    if (i<10){i='0'+i;}
+    var s=oDate.getSeconds(); 
+    if (s<10){s='0'+s;}
+    return 'XSJ'+y+''+m+''+d+''+(100000+Math.floor(Math.random()*10000));
+  }
 }
 
 function handle () {
@@ -169,5 +237,6 @@ function getData () {
   //   }, 500)
   // })
 }
+
 
 //"GET /app/confirmorder.php username=s20201513&password=123456&xsjbookid=190&bookname=%E6%96%B0%E4%B8%96%E7%95%8C%E4%BA%A4%E4%BA%92%E8%8B%B1%E8%AF%AD%EF%BC%88%E7%AC%AC%E4%BA%8C%E7%89%88%EF%BC%89%E8%A7%86%E5%90%AC%E8%AF%B41+%7C+2020%E8%83%BD%E6%BA%90%E4%B8%8E%E5%8A%A8%E5%8A%9B%E5%B7%A5%E7%A8%8B4%E7%8F%AD+-+%E6%96%B0%E4%B8%96%E7%95%8C%E8%A7%86%E5%90%AC%E8%AF%B41%EF%BC%88%E7%AC%AC2%E7%89%88%EF%BC%89&range=single&start=5&goal=8&score=99&yanzhengma=undefined&mode=putong&duration=0&oral=nan&telephone=15897339276&QQ=2102886011&message=&tip=0&orderid=XSJ20210107103674&userid=oAku2wGLD-o79FkvHfQkukVe7jBk&invitecode=undefined"
