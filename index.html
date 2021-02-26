@@ -3,31 +3,75 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>交单系统</title>
+    <title>清华社交单</title>
     <link rel="stylesheet" href="./layui/css/layui.css" />
     <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>
   </head>
 
   <body>
-    <form class="layui-form" action="">
-      <div class="layui-form-item layui-form-text">
-        <label class="layui-form-label">普通文本域</label>
-        <div class="layui-input-block">
-          <textarea
-            id="input"
-            placeholder="请输入账号（空格） 密码，每行一个账号"
-            class="layui-textarea"
-          >
-s20201001 123456</textarea
-          >
+    <div id="app">
+      <ul class="layui-nav">
+        <li class="layui-nav-item"><a href="">首页</a></li>
+        <li class="layui-nav-item layui-this">
+          <a href="javascript:;">交单</a>
+          <dl class="layui-nav-child">
+            <dd><a href="">选项1</a></dd>
+            <dd><a href="">选项2</a></dd>
+            <dd><a href="">选项3</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item"><a href="">清华社</a></li>
+        <li class="layui-nav-item">
+          <a href="javascript:;">解决方案</a>
+          <dl class="layui-nav-child">
+            <dd><a href="">移动模块</a></dd>
+            <dd><a href="">后台模版</a></dd>
+            <dd class="layui-this"><a href="">我的</a></dd>
+            <dd><a href="">电商平台</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item"><a href="">订单</a></li>
+      </ul>
+      <form class="layui-form" action="">
+        <div class="layui-form-item layui-form-text">
+          <label class="layui-form-label">账号密码</label>
+          <div class="layui-input-block">
+            <textarea
+              id="input" v-model="text"
+              placeholder="请输入账号（空格） 密码，每行一个账号"
+              class="layui-textarea"
+            >
+  </textarea>
+  {{text}}
+          </div>
         </div>
-      </div>
-      <button onclick="handle();" type="button" class="layui-btn">查课</button>
+      </form>
+      <div class="buttons" >
+      <button onclick="query();" type="button" class="layui-btn">查课</button>
+    </div>
+      <div id="tree"></div>
       <button onclick="submit_();" type="button" class="layui-btn">提交</button>
-    </form>
+    </div>
 
-    <div id="tree"></div>
     <script src="./layui/layui.all.js"></script>
     <script src="./index.js"></script>
+    <script>
+      var app= new Vue({
+				el:"#app",
+				data:{
+					text:"s20201001 123456",
+				},
+		});
+    </script>
+    <style>
+      .title{
+        text-align: center;
+      }
+      .buttons{
+        display: flex;
+        justify-content: space-around;
+      }
+    </style>
   </body>
 </html>
